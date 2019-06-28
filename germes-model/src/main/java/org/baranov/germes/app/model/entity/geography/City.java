@@ -2,6 +2,7 @@ package org.baranov.germes.app.model.entity.geography;
 
 import org.baranov.germes.app.model.entity.base.AbstractEntity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -59,4 +60,11 @@ public class City extends AbstractEntity {
         this.stations = stations;
     }
 
+    public void addStation(final Station station) {
+        if (stations == null) {
+            stations = new HashSet<>();
+        }
+        stations.add(station);
+        station.setCity(this);
+    }
 }
