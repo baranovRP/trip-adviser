@@ -2,6 +2,8 @@ package org.baranov.germes.app.model.search.criteria;
 
 import org.baranov.germes.app.model.entity.transport.TransportType;
 
+import java.util.Objects;
+
 /**
  * Filtering criteria for search stations operation
  */
@@ -22,11 +24,11 @@ public class StationCriteria {
     }
 
     private StationCriteria(final String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
     }
 
     public StationCriteria(final TransportType transportType) {
-        this.transportType = transportType;
+        this.transportType = Objects.requireNonNull(transportType);
     }
 
     /**
