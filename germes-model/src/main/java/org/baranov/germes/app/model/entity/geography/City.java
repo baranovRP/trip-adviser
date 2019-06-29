@@ -2,6 +2,7 @@ package org.baranov.germes.app.model.entity.geography;
 
 import org.baranov.germes.app.infra.util.CommonUtil;
 import org.baranov.germes.app.model.entity.base.AbstractEntity;
+import org.baranov.germes.app.model.entity.transport.TransportType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Set;
 public class City extends AbstractEntity {
 
     static final String ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED = "station parameter is not initialized";
+    static final String ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED = "transportType parameter is not initialized";
     private String name;
 
     /**
@@ -31,6 +33,10 @@ public class City extends AbstractEntity {
      * loyality
      */
     private Set<Station> stations;
+
+    public City(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -67,15 +73,17 @@ public class City extends AbstractEntity {
     /**
      * Adds specified station to the city station list
      *
-     * @param station
+     * @param transportType
+     * @return
      */
-    public void addStation(final Station station) {
-        Objects.requireNonNull(station, ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED);
+    public Station addStation(final TransportType transportType) {
+        Objects.requireNonNull(transportType, ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED);
         if (stations == null) {
             stations = new HashSet<>();
         }
+        Station station = new Station(this, transportType);
         stations.add(station);
-        station.setCity(this);
+        return station;
     }
 
     /**

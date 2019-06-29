@@ -1,11 +1,13 @@
 package org.baranov.germes.app.model.entity.geography;
 
+import org.baranov.germes.app.model.entity.transport.TransportType;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.baranov.germes.app.model.entity.geography.City.ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED;
+import static org.baranov.germes.app.model.entity.geography.City.ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED;
 
 
 /**
@@ -17,41 +19,28 @@ public class CityTest {
 
     @Before
     public void setUp() {
-        city = new City();
+        city = new City("Odessa");
     }
 
     @Test
     public void testAddValidStationSuccess() {
-        Station station = new Station();
-
-        city.addStation(station);
+        Station station = city.addStation(TransportType.AUTO);
 
         assertThat(city.getStations()).contains(station);
         assertThat(station.getCity()).isEqualTo(city);
     }
 
     @Test
-    public void testAddNullStationFailure() {
+    public void testAddStationNullTransportTypeFailure() {
         Throwable throwable = catchThrowable(() -> city.addStation(null));
 
         assertThat(throwable).isInstanceOf(NullPointerException.class);
-        assertThat(throwable).hasMessage(ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED);
-    }
-
-    @Test
-    public void testAddDuplicateStationFailure() {
-        Station station = new Station();
-
-        city.addStation(station);
-        city.addStation(station);
-
-        assertThat(city.getStations()).hasSize(1);
+        assertThat(throwable).hasMessage(ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED);
     }
 
     @Test
     public void testRemoveStationSuccess() {
-        Station station = new Station();
-        city.addStation(station);
+        Station station = city.addStation(TransportType.AVIA);
 
         city.removeStation(station);
 
