@@ -7,15 +7,16 @@
     <version>0.0.6</version>
     <packaging>pom</packaging>
     <modules>
-        <module>germes-presentation</module>
         <module>germes-model</module>
         <module>germes-persistence</module>
+        <module>germes-presentation</module>
         <module>germes-service</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
+        <jersey.version>2.19</jersey.version>
     </properties>
 
     <dependencies>
