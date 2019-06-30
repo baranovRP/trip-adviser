@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/baranovRP/trip-adviser.svg?branch=master)](https://travis-ci.org/baranovRP/trip-adviser)
+[![Build Status](https://travis-ci.com/baranovRP/trip-adviser.svg?branch=master)](https://travis-ci.com/baranovRP/trip-adviser)
 [![codecov](https://codecov.io/gh/baranovRP/trip-adviser/branch/master/graph/badge.svg)](https://codecov.io/gh/baranovRP/trip-adviser)
 
 # trip-adviser
