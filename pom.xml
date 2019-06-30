@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.baranov</groupId>
     <artifactId>germes</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <packaging>pom</packaging>
     <modules>
         <module>germes-presentation</module>
         <module>germes-model</module>
         <module>germes-persistence</module>
+        <module>germes-service</module>
     </modules>
 
     <properties>

@@ -17,7 +17,7 @@ public class GeographicServiceImpl implements GeographicService {
     private final List<City> cities;
 
     public GeographicServiceImpl() {
-        cities = new ArrayList<City>();
+        cities = new ArrayList<>();
     }
 
     @Override
