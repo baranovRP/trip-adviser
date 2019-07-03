@@ -1,7 +1,9 @@
 package org.baranov.germes.app.model.entity.geography;
 
+import org.apache.commons.lang3.StringUtils;
 import org.baranov.germes.app.model.entity.base.AbstractEntity;
 import org.baranov.germes.app.model.entity.transport.TransportType;
+import org.baranov.germes.app.model.search.criteria.StationCriteria;
 
 import java.util.Objects;
 
@@ -65,6 +67,27 @@ public class Station extends AbstractEntity {
 
     public TransportType getTransportType() {
         return transportType;
+    }
+
+    /**
+     * Verifies if current station matches specified criteria
+     *
+     * @param criteria
+     * @return
+     */
+    public boolean match(final StationCriteria criteria) {
+        Objects.requireNonNull(criteria, "Station criteria is not initialized");
+
+        if (!StringUtils.isEmpty(criteria.getName())
+                && !city.getName().equals(criteria.getName())) {
+            return false;
+        }
+
+        if (criteria.getTransportType() != null) {
+            return transportType == criteria.getTransportType();
+        }
+
+        return true;
     }
 
     @Override
