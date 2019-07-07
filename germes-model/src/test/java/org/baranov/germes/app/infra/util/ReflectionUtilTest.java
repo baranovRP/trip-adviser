@@ -2,6 +2,7 @@ package org.baranov.germes.app.infra.util;
 
 import org.baranov.germes.app.infra.exception.ConfigurationException;
 import org.baranov.germes.app.infra.exception.flow.InvalidParameterException;
+import org.baranov.germes.app.infra.util.annotaion.Ignore;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -48,6 +49,25 @@ public class ReflectionUtilTest {
     }
 
     @Test
+    public void copyFindSimilarFieldsWithIgnoreSuccess() {
+        List<String> fields = ReflectionUtil.findSimilarFields(Source.class, Destination.class);
+        assertThat(fields).doesNotContain("ignored");
+    }
+
+    @Test
+    public void copyFindSimilarFieldsForStaticAndFinalSuccess() {
+        List<String> fields = ReflectionUtil.findSimilarFields(Source.class, Destination.class);
+        assertThat(fields).doesNotContain("staticField");
+        assertThat(fields).doesNotContain("finalField");
+    }
+
+    @Test
+    public void copyFindSimilarFieldsForBaseFieldSuccess() {
+        List<String> fields = ReflectionUtil.findSimilarFields(Source.class, Destination.class);
+        assertThat(fields).contains("baseField");
+    }
+
+    @Test
     public void copyFieldsDestinationNullFailure() {
         Source src = new Source();
         Throwable throwable = catchThrowable(() ->
@@ -56,18 +76,32 @@ public class ReflectionUtilTest {
     }
 }
 
-class Source {
-    private int value;
+class BaseSource {
+    private int baseField;
+}
 
+class BaseDestination {
+    private int baseField;
+}
+
+class Source extends BaseSource {
+    private static int staticField;
+    private final int finalField = 0;
+    private int value;
     private String text;
+    @Ignore
+    private int ignored = 2;
 
     public void setValue(int value) {
         this.value = value;
     }
 }
 
-class Destination {
+class Destination extends BaseDestination {
     private int value;
+    private int ignored;
+    private int staticField;
+    private int finalField = 0;
 
     public int getValue() {
         return value;
@@ -76,6 +110,5 @@ class Destination {
 
 class Restricted {
     public Restricted(int value) {
-
     }
 }
