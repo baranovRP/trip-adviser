@@ -1,7 +1,10 @@
-
 apply plugin: 'war'
+apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScripts/gretty.plugin'
 
-description = ''
 dependencies {
     compile project(':germes-service')
+}
+
+gretty {
+    contextPath = '/'
 }
