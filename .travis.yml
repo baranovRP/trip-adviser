@@ -25,7 +25,7 @@ before_install:
 
 #https://stackoverflow:com/questions/34277662/gradlew-assemble-failing-on-travis-ci:
 install:
-  - gradle wrapper --gradle-version 4.2
+  - gradle wrapper --gradle-version 4.0.1
 
 # https://docs.travis-ci.com/user/customizing-the-build#Building-Specific-Branches
 branches:
