@@ -1,8 +1,12 @@
 # https://docs.travis-ci.com/user/languages/java/
 language: java
-jdk: openjdk8
+jdk: oraclejdk8
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 #https://dzone.com/articles/travis-ci-tutorial-java-projects
 before_cache:
