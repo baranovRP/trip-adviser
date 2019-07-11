@@ -3,7 +3,7 @@ allprojects {
     apply plugin: 'eclipse'
 
     group = 'org.it-simulator'
-    version = '0.2.8'
+    version = '0.2.9'
 }
 
 subprojects {
@@ -43,8 +43,4 @@ eclipse {
     classpath {
         downloadSources = true
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.5.1'
 }
