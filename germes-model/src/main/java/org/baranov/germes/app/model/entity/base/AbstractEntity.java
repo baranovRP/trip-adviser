@@ -2,6 +2,7 @@ package org.baranov.germes.app.model.entity.base;
 
 import org.baranov.germes.app.model.entity.person.Account;
 
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -9,6 +10,7 @@ import java.util.StringJoiner;
 /**
  * Base class for all business entities
  */
+@MappedSuperclass
 public abstract class AbstractEntity {
     /**
      * Unique entity identifier

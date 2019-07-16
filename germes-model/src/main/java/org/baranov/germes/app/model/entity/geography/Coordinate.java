@@ -1,8 +1,11 @@
 package org.baranov.germes.app.model.entity.geography;
 
+import javax.persistence.Embeddable;
+
 /**
  * Geographical coordinate of an object
  */
+@Embeddable
 public class Coordinate {
     private double x;
 

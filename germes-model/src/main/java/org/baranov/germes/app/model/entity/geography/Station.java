@@ -5,12 +5,16 @@ import org.baranov.germes.app.model.entity.base.AbstractEntity;
 import org.baranov.germes.app.model.entity.transport.TransportType;
 import org.baranov.germes.app.model.search.criteria.StationCriteria;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
 /**
  * Station where passengers can get off or take specific kind
  * of transport. Multiple stationts compose route of the trip.
  */
+@Table(name = "STATION")
+@Entity
 public class Station extends AbstractEntity {
     private City city;
 

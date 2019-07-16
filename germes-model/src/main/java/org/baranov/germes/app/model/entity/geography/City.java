@@ -4,6 +4,8 @@ import org.baranov.germes.app.infra.util.CommonUtil;
 import org.baranov.germes.app.model.entity.base.AbstractEntity;
 import org.baranov.germes.app.model.entity.transport.TransportType;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,6 +13,8 @@ import java.util.Set;
 /**
  * Any locality that contains transport stations
  */
+@Table(name = "CITY")
+@Entity
 public class City extends AbstractEntity {
 
     static final String ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED = "station parameter is not initialized";

@@ -1,9 +1,12 @@
 package org.baranov.germes.app.model.entity.geography;
 
+import javax.persistence.Embeddable;
+
 /**
  * Value type that stores address attributes
  * of the specific office or person
  */
+@Embeddable
 public class Address {
     private String zipCode;
 
