@@ -4,8 +4,7 @@ import org.baranov.germes.app.infra.util.CommonUtil;
 import org.baranov.germes.app.model.entity.base.AbstractEntity;
 import org.baranov.germes.app.model.entity.transport.TransportType;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -45,6 +44,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    @Column(name = "NAME", nullable = false, length = 32)
     public String getName() {
         return name;
     }
@@ -53,6 +53,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    @Column(name = "DISTRICT", nullable = false, length = 32)
     public String getDistrict() {
         return district;
     }
@@ -61,6 +62,7 @@ public class City extends AbstractEntity {
         this.district = district;
     }
 
+    @Column(name = "REGION", nullable = false, length = 32, unique = true)
     public String getRegion() {
         return region;
     }
@@ -69,6 +71,7 @@ public class City extends AbstractEntity {
         this.region = region;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
     public Set<Station> getStations() {
         return CommonUtil.getSafeSet(stations);
     }

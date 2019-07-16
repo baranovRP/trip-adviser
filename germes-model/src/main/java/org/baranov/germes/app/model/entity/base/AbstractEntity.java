@@ -2,7 +2,7 @@ package org.baranov.germes.app.model.entity.base;
 
 import org.baranov.germes.app.model.entity.person.Account;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -37,6 +37,9 @@ public abstract class AbstractEntity {
      */
     private Account modifiedBy;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     public int getId() {
         return id;
     }
@@ -49,10 +52,12 @@ public abstract class AbstractEntity {
         return createdAt;
     }
 
+    @Column(name = "CREATED_AT", nullable = false, updatable = false)
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Column(name = "MODIFIED_AT", insertable = false)
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
@@ -61,6 +66,8 @@ public abstract class AbstractEntity {
         this.modifiedAt = modifiedAt;
     }
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {})
+    @JoinColumn(name = "CREATED_BY", updatable = false)
     public Account getCreatedBy() {
         return createdBy;
     }
@@ -69,6 +76,8 @@ public abstract class AbstractEntity {
         this.createdBy = createdBy;
     }
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {})
+    @JoinColumn(name = "MODIFIED_BY", insertable = false)
     public Account getModifiedBy() {
         return modifiedBy;
     }
