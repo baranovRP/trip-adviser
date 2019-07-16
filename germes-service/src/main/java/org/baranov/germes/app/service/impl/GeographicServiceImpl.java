@@ -5,9 +5,9 @@ import org.baranov.germes.app.model.entity.geography.Station;
 import org.baranov.germes.app.model.search.criteria.StationCriteria;
 import org.baranov.germes.app.model.search.criteria.range.RangeCriteria;
 import org.baranov.germes.app.persistence.repository.CityRepository;
-import org.baranov.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
 import org.baranov.germes.app.service.GeographicService;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +21,9 @@ public class GeographicServiceImpl implements GeographicService {
 
     private final CityRepository cityRepository;
 
-    public GeographicServiceImpl() {
-        cityRepository = new InMemoryCityRepository();
+    @Inject
+    public GeographicServiceImpl(CityRepository cityRepository) {
+        this.cityRepository = cityRepository;
     }
 
     @Override

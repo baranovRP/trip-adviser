@@ -1,5 +1,6 @@
 package org.baranov.germes.app.rest.service.config;
 
+import org.baranov.germes.app.config.ComponentFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -10,6 +11,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("api")
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
+        super(ComponentFeature.class);
         packages("org.baranov.germes.app.rest");
     }
 }

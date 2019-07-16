@@ -5,6 +5,7 @@ import org.baranov.germes.app.model.entity.geography.Station;
 import org.baranov.germes.app.model.entity.transport.TransportType;
 import org.baranov.germes.app.model.search.criteria.StationCriteria;
 import org.baranov.germes.app.model.search.criteria.range.RangeCriteria;
+import org.baranov.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
 import org.baranov.germes.app.service.GeographicService;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class GeographicServiceImplTest {
 
     @Before
     public void setup() {
-        service = new GeographicServiceImpl();
+        service = new GeographicServiceImpl(new InMemoryCityRepository());
     }
 
     @Test
