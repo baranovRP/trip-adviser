@@ -1,5 +1,6 @@
 package org.baranov.germes.app.config;
 
+import org.baranov.germes.app.persistence.hibernate.SessionFactoryBuilder;
 import org.baranov.germes.app.persistence.repository.CityRepository;
 import org.baranov.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
 import org.baranov.germes.app.service.GeographicService;
@@ -19,5 +20,6 @@ public class ComponentBinder extends AbstractBinder {
         bind(InMemoryCityRepository.class).to(CityRepository.class).in(Singleton.class);
         bind(SimpleDTOTransformer.class).to(Transformer.class).in(Singleton.class);
         bind(GeographicServiceImpl.class).to(GeographicService.class).in(Singleton.class);
+        bind(SessionFactoryBuilder.class).to(SessionFactoryBuilder.class).in(Singleton.class);
     }
 }
