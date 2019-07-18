@@ -1,21 +1,19 @@
 package org.baranov.germes.app.persistence.hibernate;
 
-import org.baranov.germes.app.model.entity.geography.Address;
-import org.baranov.germes.app.model.entity.geography.City;
-import org.baranov.germes.app.model.entity.geography.Coordinate;
-import org.baranov.germes.app.model.entity.geography.Station;
-import org.baranov.germes.app.model.entity.person.Account;
 import org.baranov.germes.app.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.reflections.Reflections;
 
 import javax.annotation.PreDestroy;
+import javax.persistence.Entity;
 import javax.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Component that is responsible for managing
@@ -29,12 +27,10 @@ public class SessionFactoryBuilder {
 
         MetadataSources sources = new MetadataSources(registry);
 
-        sources.addAnnotatedClass(City.class);
-        sources.addAnnotatedClass(Station.class);
-        sources.addAnnotatedClass(Coordinate.class);
-        sources.addAnnotatedClass(Address.class);
-        sources.addAnnotatedClass(Account.class);
+        Reflections reflections = new Reflections("org.itsimulator.germes.app.model.entity");
 
+        Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class);
+        entityClasses.forEach(sources::addAnnotatedClass);
         org.hibernate.boot.SessionFactoryBuilder builder = sources.getMetadataBuilder().build().
                 getSessionFactoryBuilder().applyInterceptor(new TimestampInterceptor());
 
