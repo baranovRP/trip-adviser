@@ -5,6 +5,7 @@ import org.baranov.germes.app.model.entity.geography.City;
 import org.baranov.germes.app.model.entity.geography.Coordinate;
 import org.baranov.germes.app.model.entity.geography.Station;
 import org.baranov.germes.app.model.entity.person.Account;
+import org.baranov.germes.app.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -34,7 +35,10 @@ public class SessionFactoryBuilder {
         sources.addAnnotatedClass(Address.class);
         sources.addAnnotatedClass(Account.class);
 
-        sessionFactory = sources.buildMetadata().buildSessionFactory();
+        org.hibernate.boot.SessionFactoryBuilder builder = sources.getMetadataBuilder().build().
+                getSessionFactoryBuilder().applyInterceptor(new TimestampInterceptor());
+
+        sessionFactory = builder.build();
     }
 
     private Properties loadProperties() {
