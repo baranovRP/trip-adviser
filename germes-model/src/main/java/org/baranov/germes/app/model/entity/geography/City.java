@@ -18,6 +18,8 @@ public class City extends AbstractEntity {
 
     static final String ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED = "station parameter is not initialized";
     static final String ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED = "transportType parameter is not initialized";
+
+    public static final String FIELD_NAME = "name";
     private String name;
 
     /**

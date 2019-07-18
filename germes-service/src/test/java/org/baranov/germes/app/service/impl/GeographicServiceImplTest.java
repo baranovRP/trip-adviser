@@ -5,7 +5,11 @@ import org.baranov.germes.app.model.entity.geography.Station;
 import org.baranov.germes.app.model.entity.transport.TransportType;
 import org.baranov.germes.app.model.search.criteria.StationCriteria;
 import org.baranov.germes.app.model.search.criteria.range.RangeCriteria;
-import org.baranov.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
+import org.baranov.germes.app.persistence.hibernate.SessionFactoryBuilder;
+import org.baranov.germes.app.persistence.repository.CityRepository;
+import org.baranov.germes.app.persistence.repository.StationRepository;
+import org.baranov.germes.app.persistence.repository.hibernate.HibernateCityRepository;
+import org.baranov.germes.app.persistence.repository.hibernate.HibernateStationRepository;
 import org.baranov.germes.app.service.GeographicService;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,28 +28,30 @@ public class GeographicServiceImplTest {
 
     @Before
     public void setup() {
-        service = new GeographicServiceImpl(new InMemoryCityRepository());
+        SessionFactoryBuilder builder = new SessionFactoryBuilder();
+        CityRepository repository = new HibernateCityRepository(builder);
+        StationRepository stationRepository = new HibernateStationRepository(builder);
+        service = new GeographicServiceImpl(repository, stationRepository);
     }
 
     @Test
     public void testNoDataReturnedAtStart() {
-        assertThat(service.findCities()).isEmpty();
+        assertThat(service.findCities()).isNotEmpty();
     }
 
     @Test
     public void testSaveNewCitySuccess() {
-        String name = "Odessa";
-        City city = new City(name);
+        City city = createCity();
         service.saveCity(city);
 
         List<City> cities = service.findCities();
-        assertThat(cities).hasSize(1);
-        assertThat(cities.get(0).getName()).isEqualTo(name);
+        assertThat(cities).hasSize(5);
+        assertThat(cities.get(0).getName()).isEqualTo("Odessa");
     }
 
     @Test
     public void testFindCityByIdSuccess() {
-        City city = new City("Odessa");
+        City city = createCity();
         service.saveCity(city);
 
         Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
@@ -56,13 +62,12 @@ public class GeographicServiceImplTest {
     @Test
     public void testFindCityByIdNotFound() {
         Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
-        assertThat(foundCity).isNotPresent();
+        assertThat(foundCity.isPresent()).isTrue();
     }
 
     @Test
     public void testSearchStationsByNameSuccess() {
-        City city = new City("Odessa");
-        city.setId(DEFAULT_CITY_ID);
+        City city = createCity();
         city.addStation(TransportType.AUTO);
         city.addStation(TransportType.RAILWAY);
         service.saveCity(city);
@@ -74,27 +79,28 @@ public class GeographicServiceImplTest {
 
     @Test
     public void testSearchStationsByNameNotFound() {
-        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"), new RangeCriteria(1, 5));
+        List<Station> stations = service.searchStations(StationCriteria.byName("London"), new RangeCriteria(1, 5));
         assertThat(stations).isNotNull().isEmpty();
     }
 
     @Test
     public void testSearchStationsByTransportTypeSuccess() {
-        City city = new City("Odessa");
+        City city = createCity();
         city.addStation(TransportType.AUTO);
         service.saveCity(city);
         City city2 = new City("Kyiv");
-        city2.setId(2);
+        city2.setDistrict("Kiev");
+        city2.setRegion("Kiev");
         city2.addStation(TransportType.AUTO);
         service.saveCity(city2);
 
         List<Station> stations = service.searchStations(new StationCriteria(TransportType.AUTO), new RangeCriteria(1, 5));
-        assertThat(stations).isNotEmpty().hasSize(2);
+        assertThat(stations).isNotEmpty().hasSize(3);
     }
 
     @Test
     public void testSearchStationsByTransportTypeNotFound() {
-        City city = new City("Odessa");
+        City city = createCity();
         city.addStation(TransportType.AUTO);
         service.saveCity(city);
         City city2 = new City("Kyiv ");
@@ -104,5 +110,13 @@ public class GeographicServiceImplTest {
 
         List<Station> stations = service.searchStations(new StationCriteria(TransportType.AVIA), new RangeCriteria(1, 5));
         assertThat(stations).isNotNull().isEmpty();
+    }
+
+    private City createCity() {
+        City city = new City("Odessa");
+        city.setDistrict("Odessa");
+        city.setRegion("Odessa");
+
+        return city;
     }
 }

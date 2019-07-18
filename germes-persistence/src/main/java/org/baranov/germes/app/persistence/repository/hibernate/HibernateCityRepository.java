@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * Hibernate implementation of {@link CityRepository}
+ */
 public class HibernateCityRepository implements CityRepository {
 
     private final SessionFactory sessionFactory;
