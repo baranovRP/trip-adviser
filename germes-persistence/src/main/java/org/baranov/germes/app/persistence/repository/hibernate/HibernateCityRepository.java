@@ -1,5 +1,6 @@
 package org.baranov.germes.app.persistence.repository.hibernate;
 
+import org.baranov.germes.app.model.entity.base.AbstractEntity;
 import org.baranov.germes.app.model.entity.geography.City;
 import org.baranov.germes.app.persistence.hibernate.SessionFactoryBuilder;
 import org.baranov.germes.app.persistence.repository.CityRepository;
@@ -20,8 +21,11 @@ public class HibernateCityRepository implements CityRepository {
 
     @Override
     public void save(City city) {
-
         try (Session session = sessionFactory.openSession()) {
+            city.prePersist();
+            if (city.getStations() != null) {
+                city.getStations().forEach(AbstractEntity::prePersist);
+            }
             session.saveOrUpdate(city);
         }
     }
