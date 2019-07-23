@@ -18,10 +18,9 @@ import java.util.Set;
 @Entity
 public class City extends AbstractEntity {
 
+    public static final String FIELD_NAME = "name";
     static final String ERR_MSG_STATION_PARAM_IS_NOT_INITIALIZED = "station parameter is not initialized";
     static final String ERR_MSG_TRANSPORT_TYPE_PARAM_IS_NOT_INITIALIZED = "transportType parameter is not initialized";
-
-    public static final String FIELD_NAME = "name";
     private String name;
 
     /**
@@ -59,6 +58,8 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(name = "DISTRICT", nullable = false, length = 32)
     public String getDistrict() {
         return district;
@@ -68,6 +69,8 @@ public class City extends AbstractEntity {
         this.district = district;
     }
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(name = "REGION", nullable = false, length = 32)
     public String getRegion() {
         return region;
